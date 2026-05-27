@@ -1,64 +1,84 @@
-# ReceiptFlow - ระบบจัดการใบเสร็จอัตโนมัติ
+# ReceiptFlow - ระบบจัดการใบเสร็จ + LINE Bot
 
-> แรงบันดาลใจจาก Paypers.ai - ระบบจัดการค่าใช้จ่ายและใบเสร็จสำหรับธุรกิจรุ่นใหม่
+> แรงบันดาลใจจาก Paypers.ai
 
-## ฟีเจอร์หลัก
+## ฟีเจอร์
 
-- Landing Page - หน้าเว็บนำเสนอผลิตภัณฑ์ครบครัน มี Hero, Features, Pricing และ FAQ
-- Dashboard - แดชบอร์ดจัดการใบเสร็จ มี Sidebar, Stats Cards และตารางรายการ
-- อัปโหลดใบเสร็จ - Modal อัปโหลดไฟล์พร้อม Drag & Drop
-- บันทึกด้วยตนเอง - พิมพ์ เช่น "ค่ากาแฟ 65 บาท" แล้วระบบ parse อัตโนมัติ
-- Export CSV - ดาวน์โหลดรายการค่าใช้จ่ายเป็นไฟล์ CSV/Excel
-- Responsive Design - รองรับทั้ง Desktop และ Mobile
+- Landing Page ครบครัน (Hero, Features, Pricing, FAQ)
+- Dashboard จัดการใบเสร็จ (Sidebar, Stats, ตารางรายการ)
+- LINE Bot รับข้อความ/รูปใบเสร็จ/ไฟล์ PDF และตอบกลับอัตโนมัติ
+- OCR อ่านใบเสร็จด้วย AI (OpenAI GPT-4o Vision)
+- Export CSV
 
 ## โครงสร้างไฟล์
 
-- index.html - Landing Page หน้าหลักนำเสนอระบบ
-- dashboard.html - Dashboard จัดการใบเสร็จและค่าใช้จ่าย
-- style.css - CSS Stylesheet ทั้งหมด
-- app.js - JavaScript หลักสำหรับ Logic ต่างๆ
+- index.html - Landing Page
+- dashboard.html - Dashboard
+- style.css - CSS ทั้งหมด
+- app.js - Frontend JavaScript
+- server.js - Express + LINE Webhook Server
+- linebot.js - Logic หลัก LINE Bot
+- package.json - Node.js Dependencies
+- .env.example - Environment Variables template
 
-## วิธีรันโปรเจกต์
+## LINE Bot - คำสั่ง
 
-1. Clone repository
-2. เปิดไฟล์ index.html ในเบราว์เซอร์ หรือใช้ VS Code Live Server
+- พิมพ์ "ค่ากาแฟ 65 บาท" -> บันทึกอัตโนมัติ
+- ส่งรูปใบเสร็จ -> AI อ่านข้อมูลให้
+- /รายงาน -> สรุปค่าใช้จ่าย
+- /รายการ -> ดูรายการล่าสุด
+- /ลบล่าสุด -> ลบรายการล่าสุด
+- /ช่วยเหลือ -> ดูคำสั่งทั้งหมด
 
-## เทคโนโลยีที่ใช้
+## วิธีติดตั้ง LINE Bot
 
-- HTML5 - โครงสร้างหน้าเว็บ
-- CSS3 - Styling, Flexbox, Grid, CSS Variables
-- JavaScript ES6+ - Logic, DOM Manipulation, Data Management
+ขั้นตอนที่ 1 - ติดตั้ง dependencies
+npm install
+
+ขั้นตอนที่ 2 - ตั้งค่า .env
+cp .env.example .env
+แก้ไขใส่ LINE_CHANNEL_SECRET และ LINE_CHANNEL_ACCESS_TOKEN
+
+ขั้นตอนที่ 3 - รัน server
+npm run dev
+
+ขั้นตอนที่ 4 - เปิด Webhook ด้วย ngrok
+npx ngrok http 3000
+นำ URL ที่ได้ไปใส่ใน LINE Developers Console
+
+## วิธีสมัคร LINE Messaging API
+
+1. ไปที่ https://developers.line.biz/
+2. สร้าง Provider และ Channel (Messaging API)
+3. คัดลอก Channel secret และ Channel access token
+4. ใส่ค่าใน .env
+
+## เทคโนโลยี
+
+- Frontend: HTML5, CSS3 (Flexbox/Grid/CSS Variables), JavaScript ES6+
+- Backend: Node.js, Express.js, @line/bot-sdk
+- AI/OCR: OpenAI GPT-4o Vision API
+- LINE: Messaging API, LIFF SDK, Flex Message
 
 ## สิ่งที่เรียนรู้จาก Paypers.ai
 
-### โครงสร้าง UI/UX
-- Landing Page Pattern: Hero -> Stats -> Problem -> Solution -> Features -> Pricing -> CTA
-- Dashboard Layout: Fixed Sidebar + Scrollable Main Content
-- Card-based Design: Shadow, Border Radius, Spacing ที่สม่ำเสมอ
-- Color System: Primary dark + Accent blue/green/orange
+โครงสร้าง Landing Page: Hero -> Stats -> ปัญหา -> วิธีแก้ -> ฟีเจอร์ -> ราคา -> CTA
 
-### Component ที่น่าสนใจ
-- Stats Cards พร้อม Counter Animation
-- Upload Modal พร้อม Drag and Drop
-- FAQ Accordion
-- Responsive Sidebar Navigation
-- Badge Status (จ่ายแล้ว/รอจ่าย)
-- Filter Table แบบ Dynamic
+LINE Bot Architecture:
+- Webhook-based: LINE ส่ง Event มาที่ Server เมื่อมีข้อความ
+- Flex Message: การ์ดสวยงาม คลิกได้ใน LINE
+- Reply vs Push: replyMessage ใช้ replyToken, pushMessage ใช้ userId
+- LIFF: เปิดหน้าเว็บภายใน LINE App
 
 ## แนวทางพัฒนาต่อ
 
-- เชื่อมต่อ Backend API (Node.js / Python / Go)
-- เพิ่ม AI OCR อ่านใบเสร็จอัตโนมัติ (Google Cloud Vision)
-- เชื่อมต่อ Google Drive & Sheets API
-- ระบบ Login/Register (Authentication)
-- Chart แสดงกราฟค่าใช้จ่ายรายเดือน
-- Export เป็น PDF
-- รองรับหลายบริษัท (Multi-tenant)
-- LINE Bot Integration
-- Progressive Web App (PWA)
+- Database (MongoDB Atlas)
+- Google Sheets API sync
+- Rich Menu ใน LINE
+- LIFF Page สำหรับดูรายงาน
+- Multi-user / Multi-business
+- Deploy บน Railway / Render
 
 ## License
 
-MIT License - ใช้ได้ฟรี แก้ไขและพัฒนาต่อได้
-
-สร้างโดย nan27011999-tech
+MIT License | สร้างโดย nan27011999-tech | แรงบันดาลใจจาก paypers.ai
