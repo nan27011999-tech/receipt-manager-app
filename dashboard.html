@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ReceiptFlow - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-brand">📄 ReceiptFlow</div>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active">💳 รายจ่าย</a></li>
+      <li><a href="#">📋 รายรับ</a></li>
+      <li><a href="#">📁 เอกสารทั้งหมด</a></li>
+      <li><a href="#">⚙️ จัดการธุรกิจ</a></li>
+    </ul>
+    <div style="margin-top:2rem;padding:1rem;background:rgba(255,255,255,0.05);border-radius:8px;">
+      <small style="color:rgba(255,255,255,0.5);">Free Plan - 5/8 ใบ/เดือน</small>
+      <a href="index.html#pricing" style="display:block;margin-top:0.8rem;background:#3b82f6;color:#fff;text-align:center;padding:0.5rem;border-radius:6px;text-decoration:none;font-size:0.85rem;">อัปเกรดแพ็กเกจ</a>
+    </div>
+  </aside>
+  <main class="main-content">
+    <div class="dashboard-header">
+      <h1>บริษัท ตัวอย่าง จำกัด</h1>
+      <div style="display:flex;gap:0.8rem;">
+        <button class="btn btn-primary" onclick="document.getElementById('modal').style.display='flex'">📤 อัปโหลด</button>
+        <button class="btn btn-outline">📊 Google Drive</button>
+      </div>
+    </div>
+    <div class="stats-cards">
+      <div class="stat-card"><div class="label">จำนวนใบเสร็จเดือนนี้</div><div class="value">2</div><div class="period">พ.ค. 2026</div></div>
+      <div class="stat-card"><div class="label">ค่าใช้จ่ายเดือนนี้</div><div class="value" style="color:#ef4444;">฿2,525</div><div class="period">พ.ค. 2026</div></div>
+      <div class="stat-card"><div class="label">ค่าใช้จ่ายปีนี้</div><div class="value" style="color:#ef4444;">฿2,525</div><div class="period">2026</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">รายการค่าใช้จ่าย</div>
+      <table class="receipt-table">
+        <thead><tr><th>วันที่</th><th>ประเภท</th><th>ร้านค้า</th><th>ยอดชำระ</th><th>สถานะ</th></tr></thead>
+        <tbody>
+          <tr><td>1 พ.ค. 2026</td><td>ใบกำกับภาษี</td><td>ร้านสยามวิทยุ</td><td>฿1,887.00</td><td><span class="badge-status badge-paid">จ่ายแล้ว</span></td></tr>
+          <tr><td>1 พ.ค. 2026</td><td>ใบกำกับภาษี</td><td>บ. สยามโกลบอล</td><td>฿638.00</td><td><span class="badge-status badge-paid">จ่ายแล้ว</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;padding:2rem;width:450px;max-width:90vw;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:1rem;">
+        <h2>อัปโหลดค่าใช้จ่าย</h2>
+        <button onclick="document.getElementById('modal').style.display='none'" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">✕</button>
+      </div>
+      <div class="upload-area" onclick="document.getElementById('fi').click()">
+        <div class="upload-icon">📁</div>
+        <h3>คลิกหรือวางไฟล์ที่นี่</h3>
+        <p>PDF, JPG, PNG</p>
+        <input type="file" id="fi" style="display:none;" multiple />
+      </div>
+      <input type="text" placeholder="หรือพิมพ์ เช่น ค่ากาแฟ 65 บาท" style="width:100%;margin-top:1rem;padding:0.8rem;border:1px solid #e2e8f0;border-radius:8px;" />
+      <div style="display:flex;gap:0.8rem;margin-top:1rem;">
+        <button onclick="document.getElementById('modal').style.display='none'" class="btn btn-outline" style="flex:1;">ยกเลิก</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="alert('บันทึกเรียบร้อย!');document.getElementById('modal').style.display='none'">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
